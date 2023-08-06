@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bank Details Form with CAPTCHA</title>
+    <style>
+        .captcha-img {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            display: inline-block;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body bgcolor="yellow">
+    <center>
+        <h2><font color="blue">Welcome To Dollar Bank</font></h2>
+        <form id="bank-form">
+            <h2><legend>Bank Information</legend></h2>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="Place">Place:</label>
+            <input type="text" id="Place" name="A" required><br><br>
+            <label for="branch">Branch:</label>
+            <input type="text" id="branch" name="branch" required><br><br>
+            <h2><legend>Account Holder Information</legend></h2>
+            <label for="name">Name of A/C Holder:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="account_number">Account Number:</label>
+            <input type="text" id="account_number" name="account_number" required><br><br>
+            <label for="IFSC Code">IFSC Code:</label>
+            <input type="text" id="IFSC Code" name="IFSC Code" required><br><br>
+            <label for="pan">PAN No:</label>
+            <input type="text" id="pan" name="pan" required><br><br>
+            <p>Please enter the characters from the CAPTCHA image below:</p>
+            <div class="captcha-img" id="captcha-img"></div>
+            <br><br>
+            <label for="captcha">CAPTCHA:</label>
+            <input type="text" id="captcha" name="captcha" required>
+            <button type="button" onclick="refreshCaptcha()">Refresh CAPTCHA</button>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <div class="success-message" id="success-message">CAPTCHA entered matched,and your application was successfully submitted!</div>
+        <script>
+            function generateRandomAlphanumeric(length) {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+            function refreshCaptcha() {
+                const captchaLength = 6;
+                const captcha = generateRandomAlphanumeric(captchaLength);
+                document.getElementById('captcha-img').textContent = captcha;
+            }
+            document.getElementById('bank-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const userCaptcha = document.getElementById('captcha').value;
+                const actualCaptcha = document.getElementById('captcha-img').textContent;
+                if (userCaptcha === actualCaptcha) {
+                    document.getElementById('success-message').style.display = 'block';
+                                } else {
+                    alert('CAPTCHA verification failed. Please try again.');
+                    document.getElementById('success-message').style.display = 'none';
+                }
+            });
+            refreshCaptcha();
+        </script>
+    </center>
+</body>
+</html>
